@@ -72,7 +72,8 @@ public class ProductController {
 		  return msg;
 	}
 	
-	@PutMapping(value = "/updateproduct/{id}")
+	@PutMapping(value = "/updateproduct/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+                                               produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public Product updateProduct(@PathVariable("id") int id, @RequestBody Product product)
 	{
 		Product updatedProduct = prodserv.updateProduct(id , product);
@@ -80,7 +81,8 @@ public class ProductController {
 		return updatedProduct;
 	}
 	
-	@PatchMapping(value = "/editproduct/{id}")
+	@PatchMapping(value = "/editproduct/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+                                               produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public Product editProduct(@PathVariable("id") int id, @RequestBody Product product)
 	{
 		 Product editedproduct = prodserv.editProduct(id , product);
@@ -89,7 +91,7 @@ public class ProductController {
 	}
 	
 	//Pagination :-	
-	@GetMapping(value = "/getproducts/paging")
+	@GetMapping(value = "/getproducts/paging", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public List<Product> getProductsByPagination(@RequestParam(defaultValue = "0") int pageNumber,
 			                                     @RequestParam(defaultValue = "10") int pageSize)
 	{
@@ -99,21 +101,21 @@ public class ProductController {
 	}
 	
 	//Sorting :- By Price -> Ascending & Descending Order.
-	@GetMapping(value = "/getproducts/sortByPrice")
+	@GetMapping(value = "/getproducts/sortByPrice", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public List<Product> getProductsBySorting(@RequestParam(defaultValue = "asc") String direction)
 	{
 		  return prodserv.getProductsSortedByPrice(direction);
 	}
 	
 	//Searching :- ByName
-	@GetMapping(value = "/getproducts/searchByName/{name}")
+	@GetMapping(value = "/getproducts/searchByName/{name}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public List<Product> getProductByName(@PathVariable("name") String name)
 	{
 		return prodserv.getProductsByName(name);
 	}
 	
 	//Filtering Data By Category And Price Range(minPrice, maxPrice)
-	@GetMapping(value = "/getproducts/filter")
+	@GetMapping(value = "/getproducts/filter", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public List<Product> getProductsByFiltering(@RequestParam(required = false) String category,
 			                                    @RequestParam(required = false) Double minPrice,
 			                                    @RequestParam(required = false) Double maxPrice)
