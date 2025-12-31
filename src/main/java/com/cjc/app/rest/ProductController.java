@@ -36,8 +36,7 @@ public class ProductController {
 		return savedProduct;
 	}
 	
-	@GetMapping(value = "/getproduct/{id}",consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
-		                                   produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	@GetMapping(value = "/getproduct/{id}",produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public Product getProductById(@PathVariable("id") int id)
 	{
 		Product dbproduct = prodserv.getProductById(id);
@@ -53,8 +52,7 @@ public class ProductController {
 		return allProducts;
 	}
 	
-	@GetMapping(value = "/getproducts-xml",produces = {MediaType.APPLICATION_XML_VALUE },
-			                               consumes = {MediaType.APPLICATION_XML_VALUE })
+	@GetMapping(value = "/getproducts-xml", produces = {MediaType.APPLICATION_XML_VALUE })
 	public Products getProductsXml()
 	{
 		List<Product> xmllist = prodserv.getProductsInXml();
