@@ -1,6 +1,7 @@
 package com.cjc.app.rest;
 
 import java.util.List;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,8 +27,8 @@ public class ProductController {
 		this.prodserv = prodserv;
 	}
 	
-	@PostMapping(value = "/addproduct", produces ={"application/json","application/xml"},
-			                            consumes ={"application/json","application/xml"})
+	@PostMapping(value = "/addproduct", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+		                                produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public Product addProduct(@RequestBody Product product)
 	{
 		Product savedProduct = prodserv.saveProduct(product);
@@ -35,8 +36,8 @@ public class ProductController {
 		return savedProduct;
 	}
 	
-	@GetMapping(value = "/getproduct/{id}", produces ={"application/json","application/xml"},
-			                                consumes ={"application/json","application/xml"})
+	@GetMapping(value = "/getproduct/{id}",consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
+		                                   produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public Product getProductById(@PathVariable("id") int id)
 	{
 		Product dbproduct = prodserv.getProductById(id);
@@ -52,7 +53,8 @@ public class ProductController {
 		return allProducts;
 	}
 	
-	@GetMapping(value = "/getproducts-xml" , produces = {"application/xml"} , consumes = {"application/xml"})
+	@GetMapping(value = "/getproducts-xml",produces = {MediaType.APPLICATION_XML_VALUE },
+			                               consumes = {MediaType.APPLICATION_XML_VALUE })
 	public Products getProductsXml()
 	{
 		List<Product> xmllist = prodserv.getProductsInXml();
