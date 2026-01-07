@@ -1,7 +1,9 @@
 package com.cjc.app.rest;
 
 import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -29,27 +31,41 @@ public class ProductController {
 	
 	@PostMapping(value = "/products", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
 		                                produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public Product addProduct(@RequestBody Product product)
+	public ResponseEntity<Product> addProduct(@RequestBody Product product)
 	{
 		Product savedProduct = prodserv.saveProduct(product);
 		
-		return savedProduct;
+		if(savedProduct != null)
+		{
+			return new ResponseEntity<Product>(savedProduct, HttpStatus.CREATED);
+		}
+		
+		return new ResponseEntity<Product>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@GetMapping(value = "/products/{id}",produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public Product getProductById(@PathVariable("id") int id)
+	public ResponseEntity<Product> getProductById(@PathVariable("id") int id)
 	{
 		Product dbproduct = prodserv.getProductById(id);
 		
-		return dbproduct;   
+	    if(dbproduct != null)
+	    {
+	      return new ResponseEntity<Product>(dbproduct, HttpStatus.OK);
+	    }
+	    
+	      return new ResponseEntity<Product>(HttpStatus.NOT_FOUND);
 	}
 	
 	@GetMapping(value = "/products")
-	public List<Product> getProducts()
+	public  ResponseEntity<List<Product>> getProducts()
 	{
 		List<Product> allProducts = prodserv.getAllProducts();
 		
-		return allProducts;
+		if(!allProducts.isEmpty())
+		{
+			return new ResponseEntity<List<Product>>(allProducts, HttpStatus.OK);
+		}
+		   return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
 	@GetMapping(value = "/products-xml", produces = {MediaType.APPLICATION_XML_VALUE })
